@@ -5,6 +5,10 @@ using System.Reflection;
 using System.Collections.Generic;
 
 namespace PorEjemplo.Generator {
+
+    
+
+
     public class Generator<TSource> : IGenerator where TSource : new() {
         
         private Dictionary<string, object> Values { get; }
@@ -61,7 +65,7 @@ namespace PorEjemplo.Generator {
                 if (type == typeof(string)) {
                     prop.SetValue(obj, ExtendedRandom.NextString(10), null);
                 } else if (type == typeof(int) || type == typeof(long) || type == typeof(uint) || type == typeof(ulong)) {
-                    prop.SetValue(obj, Random.Next(), null);
+                    prop.SetValue(obj, Random.Next(1, 500), null);
                 } else if (type == typeof(byte)) {
                     prop.SetValue(obj, Random.Next(0, 256), null);
                 } else if (type == typeof(sbyte)) {

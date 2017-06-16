@@ -45,5 +45,8 @@ namespace PorEjemplo.Helpers {
             return Random.Next(0, 2) == 0;
         }
 
+        internal static char NextChar() {
+            return (char)Random.Next(97, 123);
+        }
     }
 }

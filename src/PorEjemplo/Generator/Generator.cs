@@ -6,10 +6,7 @@ using System.Collections.Generic;
 
 namespace PorEjemplo.Generator {
 
-    
-
-
-    public class Generator<TSource> : IGenerator where TSource : new() {
+    public sealed class Generator<TSource> : IGenerator where TSource : new() {
         
         private Dictionary<string, object> Values { get; }
         private Dictionary<string, IGenerator> Generators { get; }
@@ -57,7 +54,7 @@ namespace PorEjemplo.Generator {
                     } catch (ArgumentException) {
                         throw new ArgumentException($"Mismatching generator type for type {prop.PropertyType}");
                     }
-                continue;
+                    continue;
                 }
 
                 Type type = prop.PropertyType;
@@ -78,8 +75,8 @@ namespace PorEjemplo.Generator {
                     prop.SetValue(obj, ExtendedRandom.NextBoolean(), null);
                 } else if (type == typeof(char)) {
                     prop.SetValue(obj, ExtendedRandom.NextChar(), null);
-                } else if (type == typeof(string)) {
-                    prop.SetValue(obj, ExtendedRandom.NextString(10), null);
+                } else if (type == typeof(Guid)) {
+                    prop.SetValue(obj, Guid.NewGuid(), null);
                 }
 
 
@@ -110,8 +107,8 @@ namespace PorEjemplo.Generator {
                 }
             }
             
-            public TypeSetup ForType<T>() {
-                return new TypeSetup(this, typeof(T));
+            public TypeSetup<T> ForType<T>() {
+                return new TypeSetup<T>(this);
             }
 
             public Generator<TSource> GetGenerator() {
@@ -150,18 +147,16 @@ namespace PorEjemplo.Generator {
 
             }
 
-            public class TypeSetup {
+            public class TypeSetup<T> {
 
                 private readonly GeneratorSetup _setup;
-                private readonly Type _type;
 
-                internal TypeSetup(GeneratorSetup setup, Type type) {
+                internal TypeSetup(GeneratorSetup setup) {
                     _setup = setup;
-                    _type = type;
                 }
 
                 public GeneratorSetup UseGenerator(IGenerator generator) {
-                    _setup._generator.TypeGenerators.Add(_type, generator);
+                    _setup._generator.TypeGenerators.Add(typeof(T), generator);
                     return _setup;
                 }
 

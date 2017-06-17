@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace PorEjemplo.Helpers {
@@ -45,7 +46,7 @@ namespace PorEjemplo.Helpers {
             return Random.Next(0, 2) == 0;
         }
 
-        internal static char NextChar() {
+        public static char NextChar() {
             return (char)Random.Next(97, 123);
         }
     }

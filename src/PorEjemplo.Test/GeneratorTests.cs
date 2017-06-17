@@ -5,7 +5,7 @@ using System.Text;
 using PorEjemplo.Generator;
 using Xunit;
 
-namespace PorEjemplo.Test {
+namespace PorEjemplo.Test.Generator {
 
     public class GeneratorTests {
 
@@ -60,6 +60,25 @@ namespace PorEjemplo.Test {
         }
 
         [Fact]
+        public void Member_UseGenerator_Inline() {
+
+            var innerGenerator = Generator<Test>.Setup()
+                                    .ForMember(_ => _.Number).UseValue(1337)
+                                    .GetGenerator();
+
+            var generator = Generator<ContainsTest>.Setup()
+                                    .ForMember(_ => _.Test).UseGenerator(innerGenerator)
+                                    .GetGenerator();
+
+            Assert.NotNull(generator);
+            var generated = (ContainsTest) generator.Generate();
+
+            Assert.NotNull(generated.Test);
+            Assert.NotNull(generated.Test.Text);
+            Assert.Equal(1337, generated.Test.Number);
+        }
+
+        [Fact]
         public void Member_UseGenerator_WrongType() {
 
             var generator = Generator<Test>.Setup()
@@ -94,11 +113,38 @@ namespace PorEjemplo.Test {
             Assert.Throws<ArgumentException>(() => generator.Generate());
         }
 
+        [Fact]
+        public void Type_UseGenerator_Inline() {
+
+            var innerGenerator = Generator<Test>.Setup()
+                                    .ForMember(_ => _.Number).UseValue(1337)
+                                    .GetGenerator();
+
+            var generator = Generator<ContainsTest>.Setup()
+                                    .ForType<Test>().UseGenerator(innerGenerator)
+                                    .GetGenerator();
+
+            Assert.NotNull(generator);
+            var generated = (ContainsTest)generator.Generate();
+
+            Assert.NotNull(generated.Test);
+            Assert.NotNull(generated.Test.Text);
+            Assert.Equal(1337, generated.Test.Number);
+        }
+
+
+
         private class IntGenerator : IGenerator {
 
             public object Generate() {
                 return -5;
             }
+        }
+
+        private class ContainsTest {
+
+            public Test Test { get; set; }
+
         }
 
         private class Test {

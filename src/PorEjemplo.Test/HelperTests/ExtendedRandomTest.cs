@@ -36,5 +36,10 @@ namespace PorEjemplo.Test.HelperTests {
             }
         }
 
+        [Fact]
+        public void GenRandomDate() {
+            var dateTime = ExtendedRandom.NextDateTime();
+        }
+
     }
 }

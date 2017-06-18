@@ -77,8 +77,10 @@ namespace PorEjemplo.Generator {
                     prop.SetValue(obj, ExtendedRandom.NextChar(), null);
                 } else if (type == typeof(Guid)) {
                     prop.SetValue(obj, Guid.NewGuid(), null);
+                } else if (type == typeof(DateTime)) {
+                    prop.SetValue(obj, ExtendedRandom.NextDateTime(), null);
                 }
-
+                
 
             }
             return obj;

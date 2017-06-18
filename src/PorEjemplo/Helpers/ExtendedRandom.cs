@@ -28,6 +28,7 @@ namespace PorEjemplo.Helpers {
 
 
         public static double NextDouble(double minValue, double maxValue) {
+            if (minValue > maxValue) throw new ArgumentException("The min value must not be bigger than the max value");
             double number = Random.Next((int)Math.Ceiling(minValue), (int)Math.Floor(maxValue));
 
             if(Random.Next(0, 2) == 1) {
@@ -47,6 +48,13 @@ namespace PorEjemplo.Helpers {
 
         public static char NextChar() {
             return (char)Random.Next(97, 123);
+        }
+
+        public static DateTime NextDateTime() {
+            var year = Random.Next(1000, 3000);
+            var month = Random.Next(1, 13);
+            var day = Random.Next(1, DateTime.DaysInMonth(year, month) + 1);
+            return new DateTime(year, month, day);
         }
     }
 }

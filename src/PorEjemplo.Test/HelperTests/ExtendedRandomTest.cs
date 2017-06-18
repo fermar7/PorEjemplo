@@ -1,5 +1,4 @@
 ﻿using PorEjemplo.Helpers;
-using System.Diagnostics;
 using Xunit;
 
 namespace PorEjemplo.Test.HelperTests {

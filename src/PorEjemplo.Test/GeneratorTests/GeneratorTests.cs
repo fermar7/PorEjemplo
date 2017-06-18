@@ -5,7 +5,7 @@ using System.Text;
 using PorEjemplo.Generator;
 using Xunit;
 
-namespace PorEjemplo.Test.Generator {
+namespace PorEjemplo.Test.GeneratorTests {
 
     public class GeneratorTests {
 
